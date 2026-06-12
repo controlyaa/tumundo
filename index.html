@@ -1,7 +1,3 @@
-ntenido pegado
-64.62 KB •1,438 líneas
-•
-El formato puede ser inconsistente con la fuente
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -22,21 +18,194 @@ El formato puede ser inconsistente con la fuente
     --blanco: #ffffff;
     --gris-claro: #cfd8dc;
     --sombra: rgba(0,230,118,0.18);
+    --celeste: #74b9ff;
+    --mundial-gold: #FFD700;
   }
   * { margin:0; padding:0; box-sizing:border-box; }
   html { scroll-behavior: smooth; }
   body {
     font-family: 'Poppins', sans-serif;
-    background: var(--azul-oscuro);
     color: var(--blanco);
     overflow-x: hidden;
+    background: var(--azul-oscuro);
+  }
+
+  /* ===== FONDO MUNDIAL ARGENTINA 2026 ===== */
+  #mundial-bg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  #mundial-bg .campo {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 50% 0%, rgba(116,185,255,0.14) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 100%, rgba(0,150,70,0.25) 0%, transparent 55%),
+      linear-gradient(180deg, #060b1a 0%, #081a30 35%, #06121f 100%);
+  }
+  /* Estadio moderno SVG */
+  #mundial-bg .estadio-svg {
+    position: absolute;
+    bottom: -8%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1600px;
+    max-width: 180vw;
+    opacity: 0.22;
+  }
+  /* Reflectores del estadio */
+  .reflector {
+    position: absolute;
+    width: 300px;
+    height: 600px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.10) 0%, transparent 80%);
+    transform-origin: top center;
+  }
+  .reflector.r1 { top: -50px; left: 8%; transform: rotate(35deg); }
+  .reflector.r2 { top: -50px; right: 8%; transform: rotate(-35deg); }
+  .reflector.r3 { top: -50px; left: 50%; transform: translateX(-50%) rotate(0deg); opacity: 0.6; }
+  #mundial-bg .lineas {
+    position: absolute;
+    inset: 0;
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 79px, rgba(255,255,255,0.018) 80px),
+      repeating-linear-gradient(90deg, transparent, transparent 79px, rgba(255,255,255,0.018) 80px);
+  }
+  #mundial-bg .estrellas {
+    position: absolute;
+    inset: 0;
+  }
+  .estrella {
+    position: absolute;
+    border-radius: 50%;
+    background: #fff;
+    opacity: 0;
+    animation: twinkle 4s ease-in-out infinite;
+  }
+  @keyframes twinkle {
+    0%,100%{opacity:0;} 50%{opacity:0.7;}
+  }
+  /* Cinta argentina */
+  #mundial-bg .cinta-arg {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 6px;
+    background: linear-gradient(90deg,
+      #74b9ff 0%, #74b9ff 33%,
+      #fff 33%, #fff 66%,
+      #74b9ff 66%, #74b9ff 100%
+    );
+    opacity: 0.4;
+  }
+  /* Trofeo sutil en fondo */
+  #mundial-bg .trofeo-bg {
+    position: absolute;
+    right: -60px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 400px;
+    opacity: 0.018;
+    user-select: none;
+    line-height: 1;
+  }
+  /* Texto mundial flotante */
+  #mundial-bg .mundial-text {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: .65rem;
+    letter-spacing: 6px;
+    color: rgba(255,215,0,0.15);
+    text-transform: uppercase;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  /* ===== PELOTA REBOTANDO ===== */
+  #pelota-wrap {
+    position: fixed;
+    z-index: 500;
+    pointer-events: none;
+    display: none;
+  }
+  #pelota {
+    width: 64px;
+    height: 64px;
+    cursor: pointer;
+    pointer-events: all;
+    position: relative;
+    filter: drop-shadow(0 4px 12px rgba(0,0,0,0.6));
+    transition: transform 0.08s;
+    user-select: none;
+  }
+  #pelota:active { transform: scale(0.88); }
+  #pelota svg {
+    width: 100%;
+    height: 100%;
+    animation: rotatePelota 2s linear infinite;
+  }
+  @keyframes rotatePelota {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  /* Sombra debajo */
+  #pelota-sombra {
+    width: 48px;
+    height: 10px;
+    background: radial-gradient(ellipse, rgba(0,0,0,0.5) 0%, transparent 70%);
+    border-radius: 50%;
+    position: absolute;
+    bottom: -14px;
+    left: 8px;
+    pointer-events: none;
+  }
+  /* Burbuja de consejo */
+  #consejo-bubble {
+    position: fixed;
+    z-index: 600;
+    display: none;
+    max-width: 240px;
+    background: rgba(10, 20, 50, 0.97);
+    border: 1.5px solid var(--mundial-gold);
+    border-radius: 14px;
+    padding: 12px 16px;
+    font-size: .78rem;
+    line-height: 1.5;
+    color: #fff;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.5), 0 0 20px rgba(255,215,0,0.15);
+    pointer-events: none;
+    animation: fadeInBubble 0.25s ease;
+  }
+  @keyframes fadeInBubble {
+    from { opacity:0; transform: scale(0.85); }
+    to { opacity:1; transform: scale(1); }
+  }
+  #consejo-bubble .consejo-icon { font-size: 1.4rem; display:block; margin-bottom:6px; }
+  #consejo-bubble .consejo-label {
+    font-size: .62rem; font-weight: 700;
+    color: var(--mundial-gold);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+    display: block;
+  }
+  #consejo-bubble::after {
+    content: '';
+    position: absolute;
+    bottom: -8px; left: 20px;
+    border: 8px solid transparent;
+    border-top-color: var(--mundial-gold);
+    border-bottom: 0;
   }
 
   /* ===== SPLASH SCREEN ===== */
   #splash {
     position: fixed;
     inset: 0;
-    background: radial-gradient(ellipse at 50% 30%, #0d2a4a 0%, #0a0f1e 70%);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -44,8 +213,66 @@ El formato puede ser inconsistente con la fuente
     z-index: 9999;
     cursor: pointer;
     transition: opacity 0.8s ease, visibility 0.8s ease;
+    background: transparent;
   }
   #splash.hide { opacity:0; visibility:hidden; pointer-events:none; }
+
+  /* Fondo especial del splash */
+  #splash-bg {
+    position: fixed;
+    inset: 0;
+    z-index: 9998;
+    background:
+      radial-gradient(ellipse at 50% 30%, rgba(0,100,200,0.3) 0%, transparent 60%),
+      radial-gradient(ellipse at 20% 80%, rgba(255,215,0,0.08) 0%, transparent 40%),
+      radial-gradient(ellipse at 80% 80%, rgba(0,180,80,0.08) 0%, transparent 40%),
+      linear-gradient(180deg, #04081a 0%, #081020 100%);
+    transition: opacity 0.8s ease;
+  }
+  #splash-bg.hide { opacity:0; pointer-events:none; }
+
+  /* Franjas arg en splash */
+  .splash-franjas {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 8px;
+    background: linear-gradient(90deg,
+      #74b9ff 0%, #74b9ff 33%,
+      #fff 33%, #fff 66%,
+      #74b9ff 66%, #74b9ff 100%
+    );
+  }
+  .splash-franjas.bottom {
+    top: auto; bottom: 0;
+  }
+
+  /* Badge mundial en splash */
+  .splash-mundial-badge {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    background: linear-gradient(135deg, rgba(255,215,0,0.15), rgba(255,215,0,0.05));
+    border: 1px solid rgba(255,215,0,0.4);
+    border-radius: 12px;
+    padding: 8px 14px;
+    text-align: center;
+  }
+  .splash-mundial-badge .mw-title {
+    font-size: .6rem;
+    letter-spacing: 2px;
+    color: var(--mundial-gold);
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+  .splash-mundial-badge .mw-val {
+    font-size: 1rem;
+    font-weight: 900;
+    color: #fff;
+  }
+  .splash-mundial-badge .mw-sub {
+    font-size: .55rem;
+    color: rgba(255,255,255,0.5);
+  }
 
   .splash-glow {
     position: absolute;
@@ -62,12 +289,12 @@ El formato puede ser inconsistente con la fuente
   .netbook-wrap {
     position: relative;
     animation: floatNB 3.5s ease-in-out infinite;
+    z-index: 2;
   }
   @keyframes floatNB {
     0%,100%{transform:translateY(0);}
     50%{transform:translateY(-18px);}
   }
-
   .netbook-svg {
     width: 360px;
     filter: drop-shadow(0 0 40px rgba(0,230,118,0.4));
@@ -82,6 +309,7 @@ El formato puede ser inconsistente con la fuente
     text-transform: uppercase;
     animation: blink 1.5s step-start infinite;
     text-shadow: 0 0 20px var(--verde);
+    position: relative; z-index: 2;
   }
   @keyframes blink {0%,100%{opacity:1;}50%{opacity:0.3;}}
 
@@ -90,16 +318,40 @@ El formato puede ser inconsistente con la fuente
     font-size: .85rem;
     color: var(--gris-claro);
     letter-spacing: 2px;
+    position: relative; z-index: 2;
   }
 
+  /* Mundial tag en splash */
+  .splash-mundial-tag {
+    margin-top: 18px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, rgba(255,215,0,0.1), rgba(0,180,80,0.1));
+    border: 1px solid rgba(255,215,0,0.3);
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-size: .72rem;
+    color: rgba(255,255,255,0.7);
+    letter-spacing: 1px;
+    position: relative; z-index: 2;
+  }
+  .splash-mundial-tag .flag { font-size: 1rem; }
+
   /* PARTICLES */
-  .particles { position: absolute; inset:0; overflow:hidden; pointer-events:none; }
+  .particles { position: absolute; inset:0; overflow:hidden; pointer-events:none; z-index: 1; }
   .particle {
     position: absolute;
     border-radius: 50%;
     background: var(--verde);
     opacity: 0;
     animation: floatP 8s ease-in-out infinite;
+  }
+  @keyframes floatP {
+    0%{transform:translateY(100vh) scale(0); opacity:0;}
+    10%{opacity:.6;}
+    90%{opacity:.2;}
+    100%{transform:translateY(-100px) scale(1); opacity:0;}
   }
 
   /* ===== NAV ===== */
@@ -148,7 +400,7 @@ El formato puede ser inconsistente con la fuente
     padding: 120px 5% 80px;
     display: flex;
     align-items: center;
-    background: linear-gradient(135deg, #0a0f1e 0%, #0d2a4a 50%, #0a0f1e 100%);
+    background: transparent;
     position: relative;
     overflow: hidden;
   }
@@ -240,7 +492,7 @@ El formato puede ser inconsistente con la fuente
   .dolar-badge .note { font-size:.65rem; color:var(--gris-claro); }
 
   /* ===== SECTION BASE ===== */
-  section { padding: 90px 5%; }
+  section { padding: 90px 5%; position: relative; z-index: 1; }
   .container { max-width: 1200px; margin: 0 auto; }
   .section-tag {
     display: inline-block;
@@ -266,7 +518,7 @@ El formato puede ser inconsistente con la fuente
   }
 
   /* ===== SERVICIOS ===== */
-  #servicios { background: var(--azul-medio); }
+  #servicios { background: rgba(13,26,53,0.85); }
   .services-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -296,7 +548,7 @@ El formato puede ser inconsistente con la fuente
   .svc-desc { color: var(--gris-claro); font-size: .9rem; line-height: 1.7; }
 
   /* ===== PRECIOS ===== */
-  #precios { background: var(--azul-oscuro); }
+  #precios { background: rgba(10,15,30,0.88); }
   .pricing-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -314,14 +566,8 @@ El formato puede ser inconsistente con la fuente
     transition: transform .3s, box-shadow .3s;
   }
   .price-card:hover { transform: translateY(-8px); }
-  .price-card.featured {
-    border-color: var(--verde);
-    box-shadow: 0 0 50px rgba(0,230,118,0.2);
-  }
-  .price-card.advanced {
-    border-color: var(--dorado);
-    box-shadow: 0 0 50px rgba(200,168,75,0.15);
-  }
+  .price-card.featured { border-color: var(--verde); box-shadow: 0 0 50px rgba(0,230,118,0.2); }
+  .price-card.advanced { border-color: var(--dorado); box-shadow: 0 0 50px rgba(200,168,75,0.15); }
   .price-badge {
     position: absolute; top: 16px; right: 16px;
     background: var(--verde); color: #000;
@@ -331,11 +577,7 @@ El formato puede ser inconsistente con la fuente
   }
   .price-badge.gold { background: var(--dorado); }
   .plan-icon { font-size: 2.8rem; margin-bottom: 16px; }
-  .plan-name {
-    font-size: .8rem; font-weight: 600;
-    letter-spacing: 3px; text-transform: uppercase;
-    color: var(--verde); margin-bottom: 6px;
-  }
+  .plan-name { font-size: .8rem; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: var(--verde); margin-bottom: 6px; }
   .plan-name.gold-txt { color: var(--dorado); }
   .plan-title { font-size: 1.4rem; font-weight: 700; margin-bottom: 20px; }
   .plan-price-wrap { margin-bottom: 24px; }
@@ -367,19 +609,10 @@ El formato puede ser inconsistente con la fuente
     font-size: .95rem;
     transition: transform .3s, box-shadow .3s;
   }
-  .btn-plan.green {
-    background: linear-gradient(135deg, var(--verde), var(--verde-dark));
-    color: #000;
-    box-shadow: 0 4px 20px rgba(0,230,118,0.3);
-  }
-  .btn-plan.gold {
-    background: linear-gradient(135deg, var(--dorado), var(--dorado-light));
-    color: #000;
-    box-shadow: 0 4px 20px rgba(200,168,75,0.3);
-  }
+  .btn-plan.green { background: linear-gradient(135deg, var(--verde), var(--verde-dark)); color: #000; box-shadow: 0 4px 20px rgba(0,230,118,0.3); }
+  .btn-plan.gold { background: linear-gradient(135deg, var(--dorado), var(--dorado-light)); color: #000; box-shadow: 0 4px 20px rgba(200,168,75,0.3); }
   .btn-plan:hover { transform: translateY(-3px); }
 
-  /* Tienda virtual row */
   .store-card {
     background: linear-gradient(135deg, #0d1a35, #1a1035);
     border: 1px solid rgba(103,58,183,0.5);
@@ -394,9 +627,7 @@ El formato puede ser inconsistente con la fuente
   }
   .store-card h3 { font-size: 1.6rem; font-weight: 700; margin-bottom: 10px; color: #ce93d8; }
   .store-card p { color: var(--gris-claro); font-size: .93rem; line-height: 1.7; }
-  .store-card .mp-badge {
-    display: flex; flex-direction: column; align-items: center; gap: 8px;
-  }
+  .store-card .mp-badge { display: flex; flex-direction: column; align-items: center; gap: 8px; }
   .mp-logo { font-size: 3.5rem; }
   .mp-text { font-size: .75rem; color: var(--gris-claro); text-align: center; }
   .btn-store {
@@ -411,7 +642,7 @@ El formato puede ser inconsistente con la fuente
   .btn-store:hover { transform: translateY(-3px); }
 
   /* ===== EJEMPLOS ===== */
-  #ejemplos { background: var(--azul-medio); }
+  #ejemplos { background: rgba(13,26,53,0.85); }
   .ejemplos-intro { color: var(--gris-claro); line-height: 1.7; margin-bottom: 48px; max-width: 700px; }
   .examples-grid {
     display: grid;
@@ -426,11 +657,6 @@ El formato puede ser inconsistente con la fuente
     background: var(--azul-card);
   }
   .example-card:hover { transform: translateY(-8px); box-shadow: 0 12px 40px rgba(0,230,118,0.12); }
-  .example-img {
-    width: 100%; height: 200px;
-    object-fit: cover;
-    display: block;
-  }
   .example-mockup {
     width: 100%; height: 200px;
     display: flex; align-items: center; justify-content: center;
@@ -439,10 +665,7 @@ El formato puede ser inconsistente con la fuente
     position: relative;
     overflow: hidden;
   }
-  .example-mockup .overlay {
-    position: absolute; inset:0;
-    background: linear-gradient(135deg, rgba(0,230,118,0.08), transparent);
-  }
+  .example-mockup .overlay { position: absolute; inset:0; background: linear-gradient(135deg, rgba(0,230,118,0.08), transparent); }
   .example-mockup .screen-demo {
     position: absolute; bottom: 10px; right:10px;
     background: rgba(10,15,30,0.9);
@@ -452,15 +675,12 @@ El formato puede ser inconsistente con la fuente
     font-family: monospace;
   }
   .example-body { padding: 22px; }
-  .example-type {
-    font-size: .7rem; font-weight: 600; letter-spacing: 2px;
-    text-transform: uppercase; color: var(--verde); margin-bottom: 6px;
-  }
+  .example-type { font-size: .7rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--verde); margin-bottom: 6px; }
   .example-title { font-size: 1.15rem; font-weight: 700; margin-bottom: 8px; }
   .example-desc { color: var(--gris-claro); font-size: .87rem; line-height: 1.6; }
 
   /* ===== NEGOCIOS ===== */
-  #negocios { background: var(--azul-oscuro); }
+  #negocios { background: rgba(10,15,30,0.88); }
   .negocios-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
@@ -476,113 +696,51 @@ El formato puede ser inconsistente con la fuente
     transition: transform .3s, border-color .3s, box-shadow .3s;
     cursor: default;
   }
-  .negocio-item:hover {
-    transform: translateY(-6px);
-    border-color: rgba(0,230,118,0.4);
-    box-shadow: 0 8px 30px rgba(0,230,118,0.1);
-  }
+  .negocio-item:hover { transform: translateY(-6px); border-color: rgba(0,230,118,0.4); box-shadow: 0 8px 30px rgba(0,230,118,0.1); }
   .negocio-icon { font-size: 2.8rem; margin-bottom: 10px; }
   .negocio-name { font-size: .9rem; font-weight: 600; }
 
-  /* ===== SPECIAL BUTTONS ===== */
-  #extras { background: var(--azul-medio); }
-  .extras-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 28px;
-    margin-top: 48px;
-  }
+  /* ===== EXTRAS ===== */
+  #extras { background: rgba(13,26,53,0.85); }
+  .extras-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-top: 48px; }
   .extra-btn-card {
-    border-radius: 18px;
-    padding: 36px;
-    text-align: center;
-    text-decoration: none;
-    display: block;
+    border-radius: 18px; padding: 36px; text-align: center;
+    text-decoration: none; display: block;
     transition: transform .3s, box-shadow .3s;
-    position: relative;
-    overflow: hidden;
+    position: relative; overflow: hidden;
   }
-  .extra-btn-card::before {
-    content:'';
-    position:absolute;inset:0;
-    background: linear-gradient(135deg, rgba(255,255,255,0.05), transparent);
-  }
-  .extra-btn-card.dorado {
-    background: linear-gradient(135deg, #3d2b05, #5a3f10);
-    border: 2px solid var(--dorado);
-    box-shadow: 0 0 40px rgba(200,168,75,0.2);
-  }
-  .extra-btn-card.plateado {
-    background: linear-gradient(135deg, #1a1f2e, #252b3d);
-    border: 2px solid var(--plateado);
-    box-shadow: 0 0 40px rgba(176,190,197,0.15);
-  }
+  .extra-btn-card::before { content:''; position:absolute;inset:0; background: linear-gradient(135deg, rgba(255,255,255,0.05), transparent); }
+  .extra-btn-card.dorado { background: linear-gradient(135deg, #3d2b05, #5a3f10); border: 2px solid var(--dorado); box-shadow: 0 0 40px rgba(200,168,75,0.2); }
+  .extra-btn-card.plateado { background: linear-gradient(135deg, #1a1f2e, #252b3d); border: 2px solid var(--plateado); box-shadow: 0 0 40px rgba(176,190,197,0.15); }
   .extra-btn-card:hover { transform: translateY(-8px); }
   .extra-btn-card.dorado:hover { box-shadow: 0 12px 50px rgba(200,168,75,0.4); }
   .extra-btn-card.plateado:hover { box-shadow: 0 12px 50px rgba(176,190,197,0.3); }
   .extra-icon { font-size: 3.5rem; margin-bottom: 16px; }
-  .extra-label {
-    font-size: 1.2rem; font-weight: 800;
-    text-transform: uppercase; letter-spacing: 2px;
-    margin-bottom: 10px;
-  }
+  .extra-label { font-size: 1.2rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; }
   .extra-btn-card.dorado .extra-label { color: var(--dorado-light); }
   .extra-btn-card.plateado .extra-label { color: var(--plateado); }
   .extra-desc { font-size: .85rem; color: var(--gris-claro); line-height: 1.6; }
-  .extra-arrow {
-    display: inline-block; margin-top: 20px;
-    padding: 10px 24px; border-radius: 25px;
-    font-size: .85rem; font-weight: 700;
-  }
+  .extra-arrow { display: inline-block; margin-top: 20px; padding: 10px 24px; border-radius: 25px; font-size: .85rem; font-weight: 700; }
   .extra-btn-card.dorado .extra-arrow { background: linear-gradient(135deg, var(--dorado), var(--dorado-light)); color: #000; }
   .extra-btn-card.plateado .extra-arrow { background: linear-gradient(135deg, var(--plateado), #eceff1); color: #000; }
 
   /* ===== BLOG ===== */
-  #blog { background: var(--azul-oscuro); }
-  .blog-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 24px;
-    margin-top: 48px;
-  }
-  .blog-card {
-    background: var(--azul-card);
-    border: 1px solid rgba(255,255,255,0.07);
-    border-radius: 14px;
-    overflow: hidden;
-    transition: transform .3s;
-  }
+  #blog { background: rgba(10,15,30,0.88); }
+  .blog-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-top: 48px; }
+  .blog-card { background: var(--azul-card); border: 1px solid rgba(255,255,255,0.07); border-radius: 14px; overflow: hidden; transition: transform .3s; }
   .blog-card:hover { transform: translateY(-6px); }
-  .blog-img {
-    width: 100%; height: 160px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 4rem;
-    background: linear-gradient(135deg, #0d2a4a, #1a1035);
-  }
+  .blog-img { width: 100%; height: 160px; display: flex; align-items: center; justify-content: center; font-size: 4rem; background: linear-gradient(135deg, #0d2a4a, #1a1035); }
   .blog-body { padding: 20px; }
   .blog-date { font-size: .72rem; color: var(--verde); margin-bottom: 8px; }
   .blog-title { font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
   .blog-excerpt { font-size: .85rem; color: var(--gris-claro); line-height: 1.6; }
-  .blog-link {
-    display: inline-block; margin-top: 14px;
-    color: var(--verde); text-decoration: none;
-    font-size: .85rem; font-weight: 600;
-  }
+  .blog-link { display: inline-block; margin-top: 14px; color: var(--verde); text-decoration: none; font-size: .85rem; font-weight: 600; }
 
   /* ===== CONTACTO ===== */
-  #contacto { background: var(--azul-medio); }
-  .contact-wrap {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 48px;
-    align-items: start;
-  }
+  #contacto { background: rgba(13,26,53,0.85); }
+  .contact-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
   .contact-info h3 { font-size: 1.5rem; font-weight: 700; margin-bottom: 20px; }
-  .contact-item {
-    display: flex; align-items: center; gap: 14px;
-    margin-bottom: 18px;
-    color: var(--gris-claro);
-  }
+  .contact-item { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; color: var(--gris-claro); }
   .contact-item .ci-icon { font-size: 1.5rem; }
   .contact-item a { color: var(--verde); text-decoration: none; }
   .wa-cta-big {
@@ -597,17 +755,10 @@ El formato puede ser inconsistente con la fuente
   .wa-cta-big .wa-icon { font-size: 2.2rem; }
   .wa-cta-big .wa-text strong { display: block; color: #fff; font-size: 1rem; }
   .wa-cta-big .wa-text span { color: rgba(255,255,255,0.8); font-size: .82rem; }
+  .map-wrap { border-radius: 16px; overflow: hidden; border: 1px solid rgba(0,230,118,0.2); box-shadow: 0 0 30px rgba(0,230,118,0.1); margin-top: 20px; }
 
-  /* MAP */
-  .map-wrap {
-    border-radius: 16px; overflow: hidden;
-    border: 1px solid rgba(0,230,118,0.2);
-    box-shadow: 0 0 30px rgba(0,230,118,0.1);
-    margin-top: 20px;
-  }
-
-  /* COMMENT BOX */
-  #comentarios { background: var(--azul-oscuro); }
+  /* ===== COMENTARIOS ===== */
+  #comentarios { background: rgba(10,15,30,0.88); }
   .comment-form {
     max-width: 700px;
     background: var(--azul-card);
@@ -620,9 +771,7 @@ El formato puede ser inconsistente con la fuente
   .form-group { display: flex; flex-direction: column; gap: 6px; }
   .form-group.full { grid-column: 1/-1; }
   .form-group label { font-size: .82rem; color: var(--verde); font-weight: 600; letter-spacing: 1px; }
-  .form-group input,
-  .form-group textarea,
-  .form-group select {
+  .form-group input, .form-group textarea, .form-group select {
     background: rgba(255,255,255,0.04);
     border: 1px solid rgba(255,255,255,0.1);
     border-radius: 10px;
@@ -632,12 +781,7 @@ El formato puede ser inconsistente con la fuente
     font-size: .9rem;
     transition: border-color .3s;
   }
-  .form-group input:focus,
-  .form-group textarea:focus {
-    outline: none;
-    border-color: var(--verde);
-    box-shadow: 0 0 0 3px rgba(0,230,118,0.1);
-  }
+  .form-group input:focus, .form-group textarea:focus { outline: none; border-color: var(--verde); box-shadow: 0 0 0 3px rgba(0,230,118,0.1); }
   .form-group textarea { resize: vertical; min-height: 120px; }
   .btn-submit {
     width: 100%; padding: 14px;
@@ -649,27 +793,17 @@ El formato puede ser inconsistente con la fuente
     transition: transform .3s, box-shadow .3s;
   }
   .btn-submit:hover { transform: translateY(-3px); box-shadow: 0 8px 30px rgba(0,230,118,0.4); }
-  .form-success {
-    display: none;
-    text-align: center; padding: 20px;
-    color: var(--verde); font-weight: 600;
-    font-size: 1.1rem;
-  }
+  .form-success { display: none; text-align: center; padding: 20px; color: var(--verde); font-weight: 600; font-size: 1.1rem; }
 
   /* ===== FOOTER ===== */
   footer {
-    background: #060b14;
+    background: rgba(6,11,20,0.95);
     padding: 48px 5% 24px;
     border-top: 1px solid rgba(0,230,118,0.1);
     text-align: center;
+    position: relative; z-index: 1;
   }
-  .footer-logo {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.8rem;
-    background: linear-gradient(135deg, var(--verde), #00bcd4);
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    margin-bottom: 12px;
-  }
+  .footer-logo { font-family: 'Playfair Display', serif; font-size: 1.8rem; background: linear-gradient(135deg, var(--verde), #00bcd4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 12px; }
   .footer-desc { color: var(--gris-claro); font-size: .85rem; margin-bottom: 24px; }
   .footer-links { display: flex; justify-content: center; gap: 24px; flex-wrap: wrap; margin-bottom: 24px; }
   .footer-links a { color: var(--gris-claro); text-decoration: none; font-size: .85rem; transition: color .3s; }
@@ -692,9 +826,7 @@ El formato puede ser inconsistente con la fuente
   #scrollTop.show { display: flex; }
 
   /* BG LINES */
-  .bg-lines {
-    position: absolute; inset:0; overflow:hidden; pointer-events:none; z-index:0;
-  }
+  .bg-lines { position: absolute; inset:0; overflow:hidden; pointer-events:none; z-index:0; }
   .bg-lines::after {
     content:'';
     position:absolute;
@@ -705,15 +837,24 @@ El formato puede ser inconsistente con la fuente
     animation: rotateSlow 30s linear infinite;
   }
   @keyframes rotateSlow { from{transform:translate(-50%,-50%) rotate(0)} to{transform:translate(-50%,-50%) rotate(360deg)} }
-
   .hero-content { position: relative; z-index:1; }
 
-  /* PARTICLES */
-  @keyframes floatP {
-    0%{transform:translateY(100vh) scale(0); opacity:0;}
-    10%{opacity:.6;}
-    90%{opacity:.2;}
-    100%{transform:translateY(-100px) scale(1); opacity:0;}
+  /* Hint pelota */
+  #pelota-hint {
+    position: fixed;
+    bottom: 110px;
+    right: 22px;
+    background: rgba(10,20,50,0.92);
+    border: 1px solid var(--mundial-gold);
+    border-radius: 10px;
+    padding: 6px 12px;
+    font-size: .68rem;
+    color: var(--mundial-gold);
+    z-index: 501;
+    display: none;
+    pointer-events: none;
+    white-space: nowrap;
+    animation: fadeInBubble 0.4s ease;
   }
 
   /* MOBILE */
@@ -729,46 +870,169 @@ El formato puede ser inconsistente con la fuente
     .hamburger { display: flex; }
     .store-card { grid-template-columns: 1fr; }
     .dolar-badge { position: static; margin-bottom: 20px; display: inline-block; }
+    .splash-mundial-badge { display: none; }
+    #pelota { width: 52px; height: 52px; }
   }
 </style>
 </head>
 <body>
 
+<!-- ===== FONDO MUNDIAL ===== -->
+<div id="mundial-bg">
+  <div class="campo"></div>
+  <div class="reflector r1"></div>
+  <div class="reflector r2"></div>
+  <div class="reflector r3"></div>
+  <svg class="estadio-svg" viewBox="0 0 1200 600" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <radialGradient id="campoGrad" cx="50%" cy="60%" r="60%">
+        <stop offset="0%" stop-color="#1aa84a" stop-opacity="0.5"/>
+        <stop offset="100%" stop-color="#0a3d20" stop-opacity="0.4"/>
+      </radialGradient>
+      <linearGradient id="gradaGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#74b9ff" stop-opacity="0.35"/>
+        <stop offset="100%" stop-color="#1a2a4a" stop-opacity="0.5"/>
+      </linearGradient>
+    </defs>
+
+    <!-- Gradas anillo exterior (perspectiva elipse) -->
+    <ellipse cx="600" cy="430" rx="580" ry="220" fill="url(#gradaGrad)"/>
+    <ellipse cx="600" cy="420" rx="540" ry="195" fill="#0c1c3a" opacity="0.7"/>
+    <!-- Filas de gradas -->
+    <g stroke="#74b9ff" stroke-width="1.5" opacity="0.35" fill="none">
+      <ellipse cx="600" cy="425" rx="560" ry="208"/>
+      <ellipse cx="600" cy="420" rx="520" ry="190"/>
+      <ellipse cx="600" cy="415" rx="480" ry="172"/>
+      <ellipse cx="600" cy="410" rx="440" ry="154"/>
+    </g>
+
+    <!-- Cancha interior -->
+    <ellipse cx="600" cy="400" rx="400" ry="135" fill="url(#campoGrad)"/>
+    <!-- Lineas de franjas del cesped -->
+    <g opacity="0.25" stroke="#1aa84a" stroke-width="14" fill="none">
+      <path d="M220 400 A 380 128 0 0 1 980 400"/>
+    </g>
+    <!-- Lineas blancas de cancha -->
+    <g stroke="#ffffff" stroke-width="2.5" opacity="0.55" fill="none">
+      <ellipse cx="600" cy="400" rx="380" ry="128"/>
+      <line x1="600" y1="272" x2="600" y2="528"/>
+      <ellipse cx="600" cy="400" rx="65" ry="38"/>
+      <ellipse cx="280" cy="400" rx="90" ry="60"/>
+      <ellipse cx="920" cy="400" rx="90" ry="60"/>
+    </g>
+
+    <!-- Techo del estadio -->
+    <path d="M40 280 Q 600 100 1160 280" fill="none" stroke="#cfd8dc" stroke-width="4" opacity="0.3"/>
+    <path d="M40 280 Q 600 130 1160 280" fill="none" stroke="#cfd8dc" stroke-width="2" opacity="0.18"/>
+
+    <!-- Torres de iluminacion -->
+    <g opacity="0.5">
+      <rect x="55" y="60" width="8" height="160" fill="#aab4c8"/>
+      <rect x="30" y="35" width="60" height="30" rx="3" fill="#aab4c8"/>
+      <circle cx="40" cy="50" r="4" fill="#fff8d0"/>
+      <circle cx="58" cy="50" r="4" fill="#fff8d0"/>
+      <circle cx="76" cy="50" r="4" fill="#fff8d0"/>
+
+      <rect x="1137" y="60" width="8" height="160" fill="#aab4c8"/>
+      <rect x="1110" y="35" width="60" height="30" rx="3" fill="#aab4c8"/>
+      <circle cx="1122" cy="50" r="4" fill="#fff8d0"/>
+      <circle cx="1140" cy="50" r="4" fill="#fff8d0"/>
+      <circle cx="1158" cy="50" r="4" fill="#fff8d0"/>
+    </g>
+
+    <!-- Pantallas gigantes -->
+    <rect x="440" y="170" width="320" height="50" rx="4" fill="#0a1530" stroke="#FFD700" stroke-width="1.5" opacity="0.5"/>
+    <text x="600" y="202" text-anchor="middle" fill="#FFD700" font-family="Poppins,sans-serif" font-size="20" font-weight="800" opacity="0.6" letter-spacing="4">WORLD CUP 2026</text>
+  </svg>
+  <div class="lineas"></div>
+  <div class="estrellas" id="estrellas"></div>
+  <div class="cinta-arg"></div>
+  <div class="cinta-arg bottom"></div>
+  <div class="trofeo-bg">🏆</div>
+  <div class="mundial-text">⚽ FIFA WORLD CUP 2026 · ARGENTINA CAMPEON ⚽</div>
+</div>
+
+<!-- ===== PELOTA REBOTANDO ===== -->
+<div id="pelota-wrap">
+  <div id="pelota" onclick="mostrarConsejo()" title="¡Tocame para un consejo de negocio!">
+    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="ballGrad" cx="38%" cy="35%" r="60%">
+          <stop offset="0%" stop-color="#ffffff"/>
+          <stop offset="40%" stop-color="#e8e8e8"/>
+          <stop offset="100%" stop-color="#a0a0a0"/>
+        </radialGradient>
+        <filter id="ballShadow">
+          <feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.4"/>
+        </filter>
+      </defs>
+      <!-- Pelota base -->
+      <circle cx="50" cy="50" r="46" fill="url(#ballGrad)" filter="url(#ballShadow)"/>
+      <!-- Manchas negras estilo mundial -->
+      <g fill="#111" opacity="0.88">
+        <!-- Centro -->
+        <polygon points="50,28 58,34 55,44 45,44 42,34"/>
+        <!-- Abajo izquierda -->
+        <polygon points="26,58 34,54 38,63 32,70 23,67"/>
+        <!-- Abajo derecha -->
+        <polygon points="74,58 66,54 62,63 68,70 77,67"/>
+        <!-- Arriba izquierda -->
+        <polygon points="28,36 35,42 30,50 21,48 20,39"/>
+        <!-- Arriba derecha -->
+        <polygon points="72,36 65,42 70,50 79,48 80,39"/>
+        <!-- Abajo centro -->
+        <polygon points="50,72 42,66 45,56 55,56 58,66"/>
+      </g>
+      <!-- Brillo -->
+      <ellipse cx="38" cy="34" rx="10" ry="7" fill="rgba(255,255,255,0.4)" transform="rotate(-20,38,34)"/>
+      <!-- Insignia Copa Mundial -->
+      <circle cx="50" cy="50" r="14" fill="#0a1530" stroke="#FFD700" stroke-width="2"/>
+      <text x="50" y="56" text-anchor="middle" font-size="16" fill="#FFD700">🏆</text>
+    </svg>
+    <div id="pelota-sombra"></div>
+  </div>
+</div>
+
+<!-- Burbuja de consejo -->
+<div id="consejo-bubble">
+  <span class="consejo-icon" id="consejo-icon">💡</span>
+  <span class="consejo-label">⚽ Consejo de negocio</span>
+  <span id="consejo-text">Cargando consejo...</span>
+</div>
+
+<!-- Hint pelota -->
+<div id="pelota-hint">⚽ ¡Tocá la pelota!</div>
+
 <!-- ===== SPLASH ===== -->
+<div id="splash-bg"></div>
 <div id="splash" onclick="enterSite()">
+  <div class="splash-franjas"></div>
+  <div class="splash-franjas bottom"></div>
+  <div class="splash-mundial-badge">
+    <div class="mw-title">⚽ Mundial</div>
+    <div class="mw-val">ARG 2026</div>
+    <div class="mw-sub">Sede: Argentina 🇦🇷</div>
+  </div>
   <div class="splash-glow"></div>
   <div class="particles" id="particles"></div>
   <div class="netbook-wrap">
-    <!-- Apple-style netbook SVG -->
     <svg class="netbook-svg" viewBox="0 0 500 340" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <!-- Screen base -->
       <rect x="60" y="10" width="380" height="240" rx="14" fill="#1a1a2e" stroke="#333" stroke-width="2"/>
-      <!-- Screen inner bezel -->
       <rect x="72" y="22" width="356" height="216" rx="8" fill="#0a0f1e"/>
-      <!-- Screen content -->
       <rect x="80" y="30" width="340" height="200" rx="5" fill="#050c1a"/>
-      <!-- Green glow screen -->
       <rect x="80" y="30" width="340" height="200" rx="5" fill="url(#screenGrad)" opacity="0.9"/>
-      <!-- Apple logo on lid back (viewed from front) -->
       <circle cx="250" cy="130" r="28" fill="none" stroke="rgba(0,230,118,0.15)" stroke-width="1"/>
-      <!-- Code lines on screen -->
       <rect x="100" y="60" width="120" height="6" rx="3" fill="rgba(0,230,118,0.5)"/>
       <rect x="100" y="76" width="200" height="6" rx="3" fill="rgba(255,255,255,0.2)"/>
       <rect x="100" y="92" width="160" height="6" rx="3" fill="rgba(0,188,212,0.4)"/>
       <rect x="100" y="108" width="220" height="6" rx="3" fill="rgba(255,255,255,0.15)"/>
       <rect x="100" y="124" width="140" height="6" rx="3" fill="rgba(0,230,118,0.35)"/>
-      <!-- Big label on screen -->
-      <text x="250" y="170" text-anchor="middle" fill="#00e676" font-family="Poppins,sans-serif" font-size="22" font-weight="700">HAC&#201; CLICK</text>
-      <text x="250" y="196" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-family="Poppins,sans-serif" font-size="11">Y CREA TU P&#193;GINA WEB</text>
-      <!-- Camera dot -->
+      <text x="250" y="170" text-anchor="middle" fill="#00e676" font-family="Poppins,sans-serif" font-size="22" font-weight="700">HACÉ CLICK</text>
+      <text x="250" y="196" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-family="Poppins,sans-serif" font-size="11">Y CREA TU PÁGINA WEB</text>
       <circle cx="250" cy="18" r="4" fill="#333" stroke="#444" stroke-width="1"/>
-      <!-- Hinge -->
       <rect x="60" y="248" width="380" height="6" rx="3" fill="#222"/>
-      <!-- Keyboard base -->
       <path d="M30 252 Q30 252 60 254 L440 254 Q470 252 470 252 L490 310 Q490 318 480 320 L20 320 Q10 318 10 310 Z" fill="#1a1a2e" stroke="#333" stroke-width="1.5"/>
-      <!-- Touchpad -->
       <rect x="195" y="285" width="110" height="22" rx="4" fill="#222" stroke="#333" stroke-width="1"/>
-      <!-- Keyboard keys rows -->
       <g opacity="0.4" fill="#333">
         <rect x="50" y="258" width="28" height="10" rx="2"/>
         <rect x="84" y="258" width="28" height="10" rx="2"/>
@@ -782,7 +1046,6 @@ El formato puede ser inconsistente con la fuente
         <rect x="356" y="258" width="28" height="10" rx="2"/>
         <rect x="390" y="258" width="28" height="10" rx="2"/>
         <rect x="424" y="258" width="26" height="10" rx="2"/>
-        <!-- Row 2 -->
         <rect x="56" y="273" width="28" height="10" rx="2"/>
         <rect x="90" y="273" width="28" height="10" rx="2"/>
         <rect x="124" y="273" width="28" height="10" rx="2"/>
@@ -804,6 +1067,11 @@ El formato puede ser inconsistente con la fuente
   </div>
   <div class="click-label">▶ HACÉ CLICK PARA ENTRAR</div>
   <div class="splash-sub">soyjuanweb.com · Creamos tu sitio web</div>
+  <div class="splash-mundial-tag">
+    <span class="flag">🇦🇷</span>
+    <span>Argentina sede del Mundial 2026 · ¡Vamos campeón!</span>
+    <span class="flag">⚽</span>
+  </div>
 </div>
 
 <!-- ===== NAV ===== -->
@@ -827,7 +1095,7 @@ El formato puede ser inconsistente con la fuente
     <li><a href="#negocios">Negocios</a></li>
     <li><a href="#contacto">Contacto</a></li>
     <li><a href="#comentarios">Blog</a></li>
-    <li><a href="https://wa.me/541140970446?text=Hola%20buenas%2C%20estoy%20interesado%20en%20crear%20mi%20sitio%20web%20%C2%BFMe%20podr%C3%ADas%20explicar%20c%C3%B3mo%20es%3F%20Vi%20su%20p%C3%A1gina%20y%20me%20interes%C3%B3" target="_blank" class="nav-cta">Contactar</a></li>
+    <li><a href="https://wa.me/541153355893?text=Hola%20buenas%2C%20estoy%20interesado%20en%20crear%20mi%20sitio%20web%20%C2%BFMe%20podr%C3%ADas%20explicar%20c%C3%B3mo%20es%3F%20Vi%20su%20p%C3%A1gina%20y%20me%20interes%C3%B3" target="_blank" class="nav-cta">Contactar</a></li>
   </ul>
   <div class="hamburger" id="hamburger" onclick="toggleMenu()">
     <span></span><span></span><span></span>
@@ -855,14 +1123,13 @@ El formato puede ser inconsistente con la fuente
       </div>
       <div class="hero-btns">
         <a href="#precios" class="btn-primary">Ver Planes →</a>
-        <a href="https://wa.me/541140970446?text=Hola%20buenas%2C%20estoy%20interesado%20en%20crear%20mi%20sitio%20web%20%C2%BFMe%20podr%C3%ADas%20explicar%20c%C3%B3mo%20es%3F%20Vi%20su%20p%C3%A1gina%20y%20me%20interes%C3%B3" target="_blank" class="btn-wa">
+        <a href="https://wa.me/541153355893?text=Hola%20buenas%2C%20estoy%20interesado%20en%20crear%20mi%20sitio%20web%20%C2%BFMe%20podr%C3%ADas%20explicar%20c%C3%B3mo%20es%3F%20Vi%20su%20p%C3%A1gina%20y%20me%20interes%C3%B3" target="_blank" class="btn-wa">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
           WhatsApp
         </a>
       </div>
     </div>
     <div class="hero-visual">
-      <!-- Hero netbook larger -->
       <svg class="hero-nb" viewBox="0 0 600 420" fill="none" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <linearGradient id="screenG" x1="80" y1="30" x2="520" y2="290" gradientUnits="userSpaceOnUse">
@@ -875,41 +1142,29 @@ El formato puede ser inconsistente con la fuente
           </linearGradient>
           <filter id="glow"><feGaussianBlur stdDeviation="6" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
         </defs>
-        <!-- Screen outer -->
         <rect x="40" y="10" width="520" height="320" rx="18" fill="#1a1a2e" stroke="#2a2a45" stroke-width="2"/>
-        <!-- Screen inner -->
         <rect x="55" y="25" width="490" height="290" rx="10" fill="#050c1a"/>
-        <!-- Screen glow content -->
         <rect x="65" y="35" width="470" height="270" rx="8" fill="url(#screenG)"/>
-        <!-- Browser bar -->
         <rect x="65" y="35" width="470" height="30" rx="8 8 0 0" fill="rgba(255,255,255,0.04)"/>
         <circle cx="85" cy="50" r="6" fill="#ff5f57"/>
         <circle cx="105" cy="50" r="6" fill="#febc2e"/>
         <circle cx="125" cy="50" r="6" fill="#28c840"/>
         <rect x="145" y="42" width="300" height="16" rx="8" fill="rgba(255,255,255,0.06)"/>
         <text x="295" y="54" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="9" font-family="Poppins">soyjuanweb.com</text>
-        <!-- Site preview content -->
         <rect x="75" y="75" width="200" height="18" rx="4" fill="rgba(0,230,118,0.6)" filter="url(#glow)"/>
         <rect x="75" y="102" width="290" height="10" rx="3" fill="rgba(255,255,255,0.15)"/>
         <rect x="75" y="118" width="240" height="10" rx="3" fill="rgba(255,255,255,0.1)"/>
         <rect x="75" y="134" width="180" height="10" rx="3" fill="rgba(0,188,212,0.3)"/>
-        <!-- Card previews -->
         <rect x="75" y="158" width="130" height="80" rx="8" fill="rgba(0,230,118,0.08)" stroke="rgba(0,230,118,0.2)" stroke-width="1"/>
         <rect x="220" y="158" width="130" height="80" rx="8" fill="rgba(0,230,118,0.08)" stroke="rgba(0,230,118,0.2)" stroke-width="1"/>
         <rect x="365" y="158" width="130" height="80" rx="8" fill="rgba(0,230,118,0.08)" stroke="rgba(0,230,118,0.2)" stroke-width="1"/>
         <text x="140" y="204" text-anchor="middle" fill="rgba(0,230,118,0.7)" font-size="11" font-family="Poppins" font-weight="600">$100K</text>
         <text x="285" y="204" text-anchor="middle" fill="rgba(0,230,118,0.7)" font-size="11" font-family="Poppins" font-weight="600">$220K</text>
         <text x="430" y="204" text-anchor="middle" fill="rgba(200,168,75,0.8)" font-size="11" font-family="Poppins" font-weight="600">$350K</text>
-        <!-- Camera -->
         <circle cx="300" cy="17" r="5" fill="#333" stroke="#444" stroke-width="1"/>
-        <!-- Apple logo on screen bezel bottom -->
-        <!-- Hinge line -->
         <rect x="40" y="328" width="520" height="8" rx="4" fill="#222"/>
-        <!-- Keyboard body -->
         <path d="M10 334 Q40 336 55 338 L545 338 Q560 336 590 334 L600 400 Q600 415 585 418 L15 418 Q0 415 0 400Z" fill="url(#bodyG)" stroke="#2a2a45" stroke-width="1.5"/>
-        <!-- Touchpad -->
         <rect x="225" y="378" width="150" height="28" rx="6" fill="#161626" stroke="#2a2a45" stroke-width="1"/>
-        <!-- Keys -->
         <g fill="#2a2a45">
           <rect x="30" y="342" width="36" height="13" rx="3"/>
           <rect x="72" y="342" width="36" height="13" rx="3"/>
@@ -923,7 +1178,6 @@ El formato puede ser inconsistente con la fuente
           <rect x="408" y="342" width="36" height="13" rx="3"/>
           <rect x="450" y="342" width="36" height="13" rx="3"/>
           <rect x="492" y="342" width="42" height="13" rx="3"/>
-          <!-- Row 2 -->
           <rect x="36" y="360" width="36" height="13" rx="3"/>
           <rect x="78" y="360" width="36" height="13" rx="3"/>
           <rect x="120" y="360" width="36" height="13" rx="3"/>
@@ -947,36 +1201,12 @@ El formato puede ser inconsistente con la fuente
     <h2 class="section-title">Nuestros <span style="color:var(--verde)">Servicios</span></h2>
     <p class="section-sub">Soluciones digitales completas para que tu negocio crezca en el mundo online.</p>
     <div class="services-grid">
-      <div class="service-card">
-        <div class="svc-icon">🌐</div>
-        <div class="svc-title">Páginas Web</div>
-        <div class="svc-desc">Sitios modernos, rápidos y responsivos que representan a tu negocio las 24 horas. Desde landing pages hasta portales complejos, diseñados para convertir visitantes en clientes.</div>
-      </div>
-      <div class="service-card">
-        <div class="svc-icon">💼</div>
-        <div class="svc-title">Diseño de Software para Negocios</div>
-        <div class="svc-desc">Sistemas a medida para gestionar tu empresa: control de stock, ventas, empleados y más. Si lo necesitás, lo construimos.</div>
-      </div>
-      <div class="service-card">
-        <div class="svc-icon">🧾</div>
-        <div class="svc-title">Plataformas de Facturación y Administración</div>
-        <div class="svc-desc">Plataformas online para facturar, registrar pagos y administrar tu negocio desde cualquier dispositivo. Olvidate del papel y digitalizate.</div>
-      </div>
-      <div class="service-card">
-        <div class="svc-icon">📱</div>
-        <div class="svc-title">Aplicaciones y Programas</div>
-        <div class="svc-desc">Desarrollo de aplicaciones web y móviles para que tu negocio tenga su propia herramienta digital. Desde apps de turnos hasta sistemas de delivery.</div>
-      </div>
-      <div class="service-card">
-        <div class="svc-icon">🛒</div>
-        <div class="svc-title">Tiendas Online</div>
-        <div class="svc-desc">E-commerce completo con catálogo de productos, carrito de compras e integración con Mercado Pago para cobrar al instante de forma segura.</div>
-      </div>
-      <div class="service-card">
-        <div class="svc-icon">🔧</div>
-        <div class="svc-title">Mantenimiento y Soporte</div>
-        <div class="svc-desc">Actualizaciones de contenido, mejoras de velocidad, seguridad y soporte técnico para que tu sitio siempre funcione perfecto.</div>
-      </div>
+      <div class="service-card"><div class="svc-icon">🌐</div><div class="svc-title">Páginas Web</div><div class="svc-desc">Sitios modernos, rápidos y responsivos que representan a tu negocio las 24 horas. Desde landing pages hasta portales complejos, diseñados para convertir visitantes en clientes.</div></div>
+      <div class="service-card"><div class="svc-icon">💼</div><div class="svc-title">Diseño de Software para Negocios</div><div class="svc-desc">Sistemas a medida para gestionar tu empresa: control de stock, ventas, empleados y más. Si lo necesitás, lo construimos.</div></div>
+      <div class="service-card"><div class="svc-icon">🧾</div><div class="svc-title">Plataformas de Facturación y Administración</div><div class="svc-desc">Plataformas online para facturar, registrar pagos y administrar tu negocio desde cualquier dispositivo. Olvidate del papel y digitalizate.</div></div>
+      <div class="service-card"><div class="svc-icon">📱</div><div class="svc-title">Aplicaciones y Programas</div><div class="svc-desc">Desarrollo de aplicaciones web y móviles para que tu negocio tenga su propia herramienta digital. Desde apps de turnos hasta sistemas de delivery.</div></div>
+      <div class="service-card"><div class="svc-icon">🛒</div><div class="svc-title">Tiendas Online</div><div class="svc-desc">E-commerce completo con catálogo de productos, carrito de compras e integración con Mercado Pago para cobrar al instante de forma segura.</div></div>
+      <div class="service-card"><div class="svc-icon">🔧</div><div class="svc-title">Mantenimiento y Soporte</div><div class="svc-desc">Actualizaciones de contenido, mejoras de velocidad, seguridad y soporte técnico para que tu sitio siempre funcione perfecto.</div></div>
     </div>
   </div>
 </section>
@@ -987,19 +1217,10 @@ El formato puede ser inconsistente con la fuente
     <div class="section-tag">Inversión clara y transparente</div>
     <h2 class="section-title">Nuestros <span style="color:var(--verde)">Planes</span></h2>
     <p class="section-sub">Precios en pesos argentinos, ajustados al dólar blue. Sin sorpresas, sin letra chica. Elegís lo que necesitás.</p>
-
     <div class="pricing-grid">
-
-      <!-- PLAN ESTÁNDAR -->
       <div class="price-card">
-        <div class="plan-icon">🚀</div>
-        <div class="plan-name">Plan 01</div>
-        <div class="plan-title">Página Estándar</div>
-        <div class="plan-price-wrap">
-          <div class="plan-price">$100.000</div>
-          <div class="plan-currency">pesos argentinos</div>
-          <div class="plan-note">⭐ Sin permanencia · Con o sin mantenimiento (a tu elección)</div>
-        </div>
+        <div class="plan-icon">🚀</div><div class="plan-name">Plan 01</div><div class="plan-title">Página Estándar</div>
+        <div class="plan-price-wrap"><div class="plan-price">$100.000</div><div class="plan-currency">pesos argentinos</div><div class="plan-note">⭐ Sin permanencia · Con o sin mantenimiento (a tu elección)</div></div>
         <ul class="plan-features">
           <li><span class="chk">✓</span>Hasta 5 secciones (Inicio, Servicios, Nosotros, Galería, Contacto)</li>
           <li><span class="chk">✓</span>Diseño 100% responsivo (celular, tablet, PC)</li>
@@ -1010,20 +1231,12 @@ El formato puede ser inconsistente con la fuente
           <li><span class="chk">✓</span>Mantenimiento opcional por $15.000/mes</li>
           <li><span class="chk">✓</span>Ideal para: emprendedores, profesionales y pequeños comercios</li>
         </ul>
-        <a href="https://wa.me/541153365893?text=Hola%20Juan%2C%20me%20interesa%20el%20Plan%20Est%C3%A1ndar%20de%20%24100.000%20%C2%BFPod%C3%A9s%20contarme%20m%C3%A1s%3F" target="_blank" class="btn-plan green">Quiero este plan →</a>
+        <a href="https://wa.me/541153355893?text=Hola%20Juan%2C%20me%20interesa%20el%20Plan%20Est%C3%A1ndar%20de%20%24100.000%20%C2%BFPod%C3%A9s%20contarme%20m%C3%A1s%3F" target="_blank" class="btn-plan green">Quiero este plan →</a>
       </div>
-
-      <!-- PLAN CLÁSICO -->
       <div class="price-card featured">
         <div class="price-badge">⭐ Más elegido</div>
-        <div class="plan-icon">💎</div>
-        <div class="plan-name">Plan 02</div>
-        <div class="plan-title">Página Clásica</div>
-        <div class="plan-price-wrap">
-          <div class="plan-price">$220.000</div>
-          <div class="plan-currency">pesos argentinos</div>
-          <div class="plan-note">🔄 Incluye mantenimiento mensual (obligatorio y necesario)</div>
-        </div>
+        <div class="plan-icon">💎</div><div class="plan-name">Plan 02</div><div class="plan-title">Página Clásica</div>
+        <div class="plan-price-wrap"><div class="plan-price">$220.000</div><div class="plan-currency">pesos argentinos</div><div class="plan-note">🔄 Incluye mantenimiento mensual (obligatorio y necesario)</div></div>
         <ul class="plan-features">
           <li><span class="chk">✓</span>Hasta 10 secciones totalmente personalizadas</li>
           <li><span class="chk">✓</span>Diseño premium con animaciones profesionales</li>
@@ -1037,20 +1250,12 @@ El formato puede ser inconsistente con la fuente
           <li><span class="chk">✓</span>Entrega en 12 a 18 días hábiles</li>
           <li><span class="chk">✓</span>Ideal para: comercios, restaurantes, estudios profesionales</li>
         </ul>
-        <a href="https://wa.me/541153365893?text=Hola%20Juan%2C%20me%20interesa%20el%20Plan%20Cl%C3%A1sico%20de%20%24220.000%20%C2%BFPod%C3%A9s%20contarme%20m%C3%A1s%3F" target="_blank" class="btn-plan green">Quiero este plan →</a>
+        <a href="https://wa.me/541153355893?text=Hola%20Juan%2C%20me%20interesa%20el%20Plan%20Cl%C3%A1sico%20de%20%24220.000%20%C2%BFPod%C3%A9s%20contarme%20m%C3%A1s%3F" target="_blank" class="btn-plan green">Quiero este plan →</a>
       </div>
-
-      <!-- PLAN AVANZADO -->
       <div class="price-card advanced">
         <div class="price-badge gold">🏆 Premium</div>
-        <div class="plan-icon">⚡</div>
-        <div class="plan-name gold-txt">Plan 03</div>
-        <div class="plan-title">Plataforma Avanzada</div>
-        <div class="plan-price-wrap">
-          <div class="plan-price gold-price">$350.000</div>
-          <div class="plan-currency">pesos argentinos</div>
-          <div class="plan-note">🔐 Mantenimiento y soporte prioritario incluido</div>
-        </div>
+        <div class="plan-icon">⚡</div><div class="plan-name gold-txt">Plan 03</div><div class="plan-title">Plataforma Avanzada</div>
+        <div class="plan-price-wrap"><div class="plan-price gold-price">$350.000</div><div class="plan-currency">pesos argentinos</div><div class="plan-note">🔐 Mantenimiento y soporte prioritario incluido</div></div>
         <ul class="plan-features">
           <li><span class="chk gold">✓</span>Sistema completo de administración online (panel de control)</li>
           <li><span class="chk gold">✓</span>Área privada para clientes o empleados con login</li>
@@ -1065,11 +1270,9 @@ El formato puede ser inconsistente con la fuente
           <li><span class="chk gold">✓</span>Entrega en 20 a 30 días hábiles</li>
           <li><span class="chk gold">✓</span>Ideal para: empresas medianas, plataformas de servicio, franquicias</li>
         </ul>
-        <a href="https://wa.me/541153365893?text=Hola%20Juan%2C%20me%20interesa%20la%20Plataforma%20Avanzada%20de%20%24350.000%20%C2%BFPod%C3%A9s%20contarme%20m%C3%A1s%3F" target="_blank" class="btn-plan gold">Quiero este plan →</a>
+        <a href="https://wa.me/541153355893?text=Hola%20Juan%2C%20me%20interesa%20la%20Plataforma%20Avanzada%20de%20%24350.000%20%C2%BFPod%C3%A9s%20contarme%20m%C3%A1s%3F" target="_blank" class="btn-plan gold">Quiero este plan →</a>
       </div>
     </div>
-
-    <!-- TIENDA VIRTUAL -->
     <div class="store-card">
       <div>
         <div class="section-tag" style="background:rgba(156,39,176,0.15);border-color:rgba(156,39,176,0.4);color:#ce93d8;">Opción Extra</div>
@@ -1081,12 +1284,9 @@ El formato puede ser inconsistente con la fuente
           <li style="padding:4px 0;">🔔 Notificaciones automáticas de nuevas ventas</li>
           <li style="padding:4px 0;">📊 Reportes de ventas y métricas</li>
         </ul>
-        <a href="https://wa.me/541153365893?text=Hola%20Juan%2C%20me%20interesa%20la%20Tienda%20Virtual%20con%20Mercado%20Pago%20%C2%BFC%C3%B3mo%20funciona%3F" target="_blank" class="btn-store">💬 Consultar precio →</a>
+        <a href="https://wa.me/541153355893?text=Hola%20Juan%2C%20me%20interesa%20la%20Tienda%20Virtual%20con%20Mercado%20Pago%20%C2%BFC%C3%B3mo%20funciona%3F" target="_blank" class="btn-store">💬 Consultar precio →</a>
       </div>
-      <div class="mp-badge">
-        <div class="mp-logo">🏪</div>
-        <div class="mp-text">Mercado Pago<br>Integrado</div>
-      </div>
+      <div class="mp-badge"><div class="mp-logo">🏪</div><div class="mp-text">Mercado Pago<br>Integrado</div></div>
     </div>
   </div>
 </section>
@@ -1097,9 +1297,7 @@ El formato puede ser inconsistente con la fuente
     <div class="section-tag">Inspiración real</div>
     <h2 class="section-title">Ejemplos de <span style="color:var(--verde)">Trabajo</span></h2>
     <p class="section-sub ejemplos-intro">Así pueden verse los sitios que creamos para diferentes tipos de negocio. Cada uno se diseña desde cero, personalizado 100% para tu rubro y tu identidad.</p>
-
     <div class="examples-grid">
-      <!-- Ejemplo 1: Gastronomía -->
       <div class="example-card">
         <div class="example-mockup" style="background:linear-gradient(135deg,#1a0a0a,#2d0f0f);">
           <div class="overlay" style="background:linear-gradient(135deg,rgba(255,87,34,0.15),transparent)"></div>
@@ -1112,8 +1310,6 @@ El formato puede ser inconsistente con la fuente
           <div class="example-desc">Menú digital con fotos, pedidos online, reservas de mesa, integración con WhatsApp para delivery y sistema de pagos con Mercado Pago. Diseño oscuro y elegante con animaciones apetitosas.</div>
         </div>
       </div>
-
-      <!-- Ejemplo 2: Kiosco / Almacén / Ferretería -->
       <div class="example-card">
         <div class="example-mockup" style="background:linear-gradient(135deg,#0a1a0a,#0d2a0d);">
           <div class="overlay" style="background:linear-gradient(135deg,rgba(0,230,118,0.15),transparent)"></div>
@@ -1126,8 +1322,6 @@ El formato puede ser inconsistente con la fuente
           <div class="example-desc">Catálogo de productos actualizable, lista de precios online, horarios de atención, WhatsApp directo, ubicación en mapa y sección de ofertas semanales. Ideal para fidelizar a tus clientes del barrio.</div>
         </div>
       </div>
-
-      <!-- Ejemplo 3: Zapatería / Dietética / Farmacia -->
       <div class="example-card">
         <div class="example-mockup" style="background:linear-gradient(135deg,#0a0a1a,#1a0a2a);">
           <div class="overlay" style="background:linear-gradient(135deg,rgba(186,104,200,0.15),transparent)"></div>
@@ -1149,7 +1343,7 @@ El formato puede ser inconsistente con la fuente
   <div class="container">
     <div class="section-tag">¿Para quién?</div>
     <h2 class="section-title">Trabajamos con <span style="color:var(--verde)">Todo Tipo</span> de Negocio</h2>
-    <p class="section-sub">Si tenés un negocio y querés crecer en internet, podemos ayudarte. Algunos ejemplos de lo que hacemos:</p>
+    <p class="section-sub">Si tenés un negocio y querés crecer en internet, podemos ayudarte.</p>
     <div class="negocios-grid">
       <div class="negocio-item"><div class="negocio-icon">🏪</div><div class="negocio-name">Kiosco</div></div>
       <div class="negocio-item"><div class="negocio-icon">🛒</div><div class="negocio-name">Almacén</div></div>
@@ -1167,7 +1361,7 @@ El formato puede ser inconsistente con la fuente
   </div>
 </section>
 
-<!-- ===== EXTRAS - BOTONES ESPECIALES ===== -->
+<!-- ===== EXTRAS ===== -->
 <section id="extras" style="display:none">
   <div class="container">
     <div class="section-tag">Servicios adicionales</div>
@@ -1202,8 +1396,8 @@ El formato puede ser inconsistente con la fuente
         <div class="blog-body">
           <div class="blog-date">📅 Febrero 2025</div>
           <div class="blog-title">¿Por qué tu negocio necesita una página web hoy?</div>
-          <div class="blog-excerpt">En Argentina, el 70% de las personas busca en Google antes de visitar un local. Si no aparecés online, no existís para esos potenciales clientes. Te explicamos por qué invertir en tu sitio web es la decisión más rentable que podés tomar.</div>
-          <a href="https://wa.me/541153365893?text=Hola%20Juan%2C%20vi%20el%20blog%20y%20quiero%20saber%20m%C3%A1s%20sobre%20c%C3%B3mo%20mi%20negocio%20puede%20crecer%20online" target="_blank" class="blog-link">Consultame →</a>
+          <div class="blog-excerpt">En Argentina, el 70% de las personas busca en Google antes de visitar un local. Si no aparecés online, no existís para esos potenciales clientes.</div>
+          <a href="https://wa.me/541153355893?text=Hola%20Juan%2C%20vi%20el%20blog%20y%20quiero%20saber%20m%C3%A1s%20sobre%20c%C3%B3mo%20mi%20negocio%20puede%20crecer%20online" target="_blank" class="blog-link">Consultame →</a>
         </div>
       </div>
       <div class="blog-card">
@@ -1211,8 +1405,8 @@ El formato puede ser inconsistente con la fuente
         <div class="blog-body">
           <div class="blog-date">📅 Enero 2025</div>
           <div class="blog-title">Mercado Pago: la clave para vender más en tu local</div>
-          <div class="blog-excerpt">Integrar Mercado Pago en tu página web no solo facilita los cobros — aumenta las ventas hasta un 40% porque los clientes prefieren pagar con tarjeta. Te explicamos cómo lo hacemos y por qué es tan importante.</div>
-          <a href="https://wa.me/541153365893?text=Hola%20Juan%2C%20quiero%20saber%20m%C3%A1s%20sobre%20integrar%20Mercado%20Pago%20en%20mi%20p%C3%A1gina" target="_blank" class="blog-link">Consultame →</a>
+          <div class="blog-excerpt">Integrar Mercado Pago en tu página web no solo facilita los cobros — aumenta las ventas hasta un 40% porque los clientes prefieren pagar con tarjeta.</div>
+          <a href="https://wa.me/541153355893?text=Hola%20Juan%2C%20quiero%20saber%20m%C3%A1s%20sobre%20integrar%20Mercado%20Pago%20en%20mi%20p%C3%A1gina" target="_blank" class="blog-link">Consultame →</a>
         </div>
       </div>
       <div class="blog-card">
@@ -1220,8 +1414,8 @@ El formato puede ser inconsistente con la fuente
         <div class="blog-body">
           <div class="blog-date">📅 Diciembre 2024</div>
           <div class="blog-title">SEO para pymes: cómo aparecer primero en Google sin pagar publicidad</div>
-          <div class="blog-excerpt">El posicionamiento orgánico es el activo digital más valioso de cualquier negocio. Con las técnicas correctas, tu comercio puede aparecer en los primeros resultados de Google en tu zona sin gastar en anuncios.</div>
-          <a href="https://wa.me/541153365893?text=Hola%20Juan%2C%20quiero%20que%20mi%20negocio%20aparezca%20en%20Google%20%C2%BFC%C3%B3mo%20funciona%20el%20SEO%3F" target="_blank" class="blog-link">Consultame →</a>
+          <div class="blog-excerpt">El posicionamiento orgánico es el activo digital más valioso de cualquier negocio. Con las técnicas correctas, tu comercio puede aparecer en los primeros resultados de Google en tu zona.</div>
+          <a href="https://wa.me/541153355893?text=Hola%20Juan%2C%20quiero%20que%20mi%20negocio%20aparezca%20en%20Google%20%C2%BFC%C3%B3mo%20funciona%20el%20SEO%3F" target="_blank" class="blog-link">Consultame →</a>
         </div>
       </div>
     </div>
@@ -1240,15 +1434,12 @@ El formato puede ser inconsistente con la fuente
           <span class="ci-icon">📱</span>
           <div>
             <strong>WhatsApp</strong><br>
-            <a href="https://wa.me/541153365893?text=Hola%20buenas%2C%20estoy%20interesado%20en%20crear%20mi%20sitio%20web%20%C2%BFMe%20podr%C3%ADas%20explicar%20c%C3%B3mo%20es%3F%20Vi%20su%20p%C3%A1gina%20y%20me%20interes%C3%B3" target="_blank">11 4097-0446 (Juan)</a>
+            <a href="https://wa.me/541153355893?text=Hola%20buenas%2C%20estoy%20interesado%20en%20crear%20mi%20sitio%20web%20%C2%BFMe%20podr%C3%ADas%20explicar%20c%C3%B3mo%20es%3F%20Vi%20su%20p%C3%A1gina%20y%20me%20interes%C3%B3" target="_blank">11 5335-5893 (Juan)</a>
           </div>
         </div>
         <div class="contact-item">
           <span class="ci-icon">📧</span>
-          <div>
-            <strong>Email</strong><br>
-            <a href="mailto:soyjuanwebb@yahoo.com">soyjuanwebb@yahoo.com</a>
-          </div>
+          <div><strong>Email</strong><br><a href="mailto:soyjuanwebb@yahoo.com">soyjuanwebb@yahoo.com</a></div>
         </div>
         <div class="contact-item">
           <span class="ci-icon">📍</span>
@@ -1258,23 +1449,22 @@ El formato puede ser inconsistente con la fuente
             <small style="color:var(--verde)">También trabajamos de forma 100% online</small>
           </div>
         </div>
-        <a href="https://wa.me/541153365893?text=Hola%20buenas%2C%20estoy%20interesado%20en%20crear%20mi%20sitio%20web%20%C2%BFMe%20podr%C3%ADas%20explicar%20c%C3%B3mo%20es%3F%20Vi%20su%20p%C3%A1gina%20y%20me%20interes%C3%B3" target="_blank" class="wa-cta-big">
+        <a href="https://wa.me/541153355893?text=Hola%20buenas%2C%20estoy%20interesado%20en%20crear%20mi%20sitio%20web%20%C2%BFMe%20podr%C3%ADas%20explicar%20c%C3%B3mo%20es%3F%20Vi%20su%20p%C3%A1gina%20y%20me%20interes%C3%B3" target="_blank" class="wa-cta-big">
           <div class="wa-icon">💬</div>
           <div class="wa-text">
             <strong>Chateá con Juan ahora</strong>
             <span>Hola buenas, estoy interesado en crear mi sitio web ¿Me podrías explicar cómo es?</span>
           </div>
         </a>
-
-        <!-- MAPA ZONA OESTE GBA -->
         <div class="map-wrap" style="margin-top:28px;">
-          <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d52626.58!2d-58.66!3d-34.616!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bcbf27b9eb55fb%3A0x7c7d1f8a9b49f8df!2sMerlo%2C%20Provincia%20de%20Buenos%20Aires!5e0!3m2!1ses!2sar!4v1708000000000!5m2!1ses!2sar"
-            width="100%" height="250"
-            style="border:0; display:block;"
-            allowfullscreen="" loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade">
-          </iframe>
+          <a href="https://www.google.com/maps/search/?api=1&query=Merlo,Provincia+de+Buenos+Aires" target="_blank" style="display:block; text-decoration:none; color:inherit;">
+            <div style="background:linear-gradient(135deg,#0d2a4a,#0a1530); height:220px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; position:relative; overflow:hidden;">
+              <div style="position:absolute; inset:0; background-image: repeating-linear-gradient(0deg, transparent, transparent 24px, rgba(0,230,118,0.06) 25px), repeating-linear-gradient(90deg, transparent, transparent 24px, rgba(0,230,118,0.06) 25px);"></div>
+              <div style="font-size:3rem; z-index:1;">📍</div>
+              <div style="font-weight:700; font-size:1.05rem; z-index:1;">Zona Oeste, Gran Buenos Aires</div>
+              <div style="font-size:.8rem; color:var(--verde); z-index:1;">Ver ubicación en Google Maps →</div>
+            </div>
+          </a>
         </div>
       </div>
     </div>
@@ -1289,33 +1479,18 @@ El formato puede ser inconsistente con la fuente
     <p class="section-sub" style="text-align:center;">¿Tenés alguna consulta, sugerencia o simplemente querés saludar? Completá el formulario y te respondemos a la brevedad.</p>
     <div class="comment-form">
       <div class="form-row">
-        <div class="form-group">
-          <label>Tu nombre</label>
-          <input type="text" id="f-name" placeholder="Ej: María González"/>
-        </div>
-        <div class="form-group">
-          <label>Tu email</label>
-          <input type="email" id="f-email" placeholder="tucorreo@gmail.com"/>
-        </div>
+        <div class="form-group"><label>Tu nombre</label><input type="text" id="f-name" placeholder="Ej: María González"/></div>
+        <div class="form-group"><label>Tu email</label><input type="email" id="f-email" placeholder="tucorreo@gmail.com"/></div>
       </div>
       <div class="form-row">
-        <div class="form-group">
-          <label>Teléfono (opcional)</label>
-          <input type="tel" id="f-phone" placeholder="11 xxxx-xxxx"/>
-        </div>
+        <div class="form-group"><label>Teléfono (opcional)</label><input type="tel" id="f-phone" placeholder="11 xxxx-xxxx"/></div>
         <div class="form-group">
           <label>¿Qué tipo de negocio tenés?</label>
           <select id="f-negocio">
             <option value="">Seleccioná...</option>
-            <option>Kiosco</option>
-            <option>Almacén</option>
-            <option>Ferretería</option>
-            <option>Zapatería</option>
-            <option>Dietética</option>
-            <option>Farmacia</option>
-            <option>Gastronomía</option>
-            <option>Peluquería</option>
-            <option>Otro</option>
+            <option>Kiosco</option><option>Almacén</option><option>Ferretería</option>
+            <option>Zapatería</option><option>Dietética</option><option>Farmacia</option>
+            <option>Gastronomía</option><option>Peluquería</option><option>Otro</option>
           </select>
         </div>
       </div>
@@ -1324,9 +1499,7 @@ El formato puede ser inconsistente con la fuente
         <textarea id="f-msg" placeholder="Contanos qué necesitás, qué tipo de página te gustaría, o hacé todas las preguntas que quieras..."></textarea>
       </div>
       <button class="btn-submit" onclick="submitForm()">✉️ Enviar mensaje</button>
-      <div class="form-success" id="formSuccess">
-        ✅ ¡Mensaje recibido! Te respondemos por WhatsApp o email a la brevedad. ¡Gracias por contactarte con SoyJuanWeb!
-      </div>
+      <div class="form-success" id="formSuccess">✅ ¡Mensaje recibido! Te respondemos por WhatsApp o email a la brevedad. ¡Gracias por contactarte con SoyJuanWeb!</div>
     </div>
   </div>
 </section>
@@ -1334,108 +1507,281 @@ El formato puede ser inconsistente con la fuente
 <!-- ===== FOOTER ===== -->
 <footer id="footer" style="display:none">
   <div class="footer-logo">SoyJuanWeb</div>
-  <div class="footer-desc">Creamos tu presencia digital desde el corazón de Buenos Aires.<br>Monserrat, Congreso — y más allá de la pantalla.</div>
+  <div class="footer-desc">Creamos tu presencia digital desde el corazón de Buenos Aires.<br>Monserrat, Congreso — y más allá de la pantalla.<br><small style="color:rgba(255,215,0,0.5)">⚽ Argentina sede del Mundial 2026 🏆</small></div>
   <div class="footer-links">
-    <a href="#hero">Inicio</a>
-    <a href="#servicios">Servicios</a>
-    <a href="#precios">Precios</a>
-    <a href="#ejemplos">Ejemplos</a>
-    <a href="#negocios">Negocios</a>
-    <a href="#contacto">Contacto</a>
-    <a href="#blog">Blog</a>
-    <a href="mailto:soyjuanwebb@yahoo.com">📧 Email</a>
+    <a href="#hero">Inicio</a><a href="#servicios">Servicios</a><a href="#precios">Precios</a>
+    <a href="#ejemplos">Ejemplos</a><a href="#negocios">Negocios</a><a href="#contacto">Contacto</a>
+    <a href="#blog">Blog</a><a href="mailto:soyjuanwebb@yahoo.com">📧 Email</a>
   </div>
-  <div class="footer-copy">© 2025 SoyJuanWeb · Todos los derechos reservados · <a href="https://wa.me/541140970446" style="color:var(--verde);text-decoration:none;">WhatsApp</a></div>
+  <div class="footer-copy">© 2025 SoyJuanWeb · Todos los derechos reservados · <a href="https://wa.me/541153355893" style="color:var(--verde);text-decoration:none;">WhatsApp</a></div>
 </footer>
 
-<!-- SCROLL TOP -->
 <button id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 
 <script>
-  // PARTICLES
-  function createParticles(){
-    const c = document.getElementById('particles');
-    for(let i=0;i<20;i++){
-      const p = document.createElement('div');
-      p.className = 'particle';
-      const size = Math.random()*6+2;
-      p.style.cssText = `width:${size}px;height:${size}px;left:${Math.random()*100}%;animation-delay:${Math.random()*8}s;animation-duration:${6+Math.random()*6}s;`;
-      c.appendChild(p);
+// ===== ESTRELLAS =====
+(function(){
+  const c = document.getElementById('estrellas');
+  for(let i=0;i<80;i++){
+    const s = document.createElement('div');
+    s.className = 'estrella';
+    const sz = Math.random()*2.5+0.5;
+    s.style.cssText = `width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;animation-delay:${Math.random()*4}s;animation-duration:${2+Math.random()*4}s;`;
+    c.appendChild(s);
+  }
+})();
+
+// ===== PARTICLES =====
+function createParticles(){
+  const c = document.getElementById('particles');
+  for(let i=0;i<20;i++){
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const size = Math.random()*6+2;
+    p.style.cssText = `width:${size}px;height:${size}px;left:${Math.random()*100}%;animation-delay:${Math.random()*8}s;animation-duration:${6+Math.random()*6}s;`;
+    c.appendChild(p);
+  }
+}
+createParticles();
+
+// ===== ENTER SITE =====
+function enterSite(){
+  document.getElementById('splash').classList.add('hide');
+  document.getElementById('splash-bg').classList.add('hide');
+  const els = ['navbar','hero','servicios','precios','ejemplos','negocios','extras','blog','contacto','comentarios','footer'];
+  els.forEach((id,i)=>{
+    const el = document.getElementById(id);
+    if(el){
+      setTimeout(()=>{
+        el.style.display='';
+        el.style.opacity='0';
+        el.style.transition='opacity 0.6s';
+        setTimeout(()=>{el.style.opacity='1';},50);
+      },i*80);
     }
-  }
-  createParticles();
-
-  // ENTER SITE
-  function enterSite(){
-    document.getElementById('splash').classList.add('hide');
-    const els = ['navbar','hero','servicios','precios','ejemplos','negocios','extras','blog','contacto','comentarios','footer'];
-    els.forEach((id,i) => {
-      const el = document.getElementById(id);
-      if(el){
-        setTimeout(()=>{ el.style.display=''; el.style.opacity='0'; el.style.transition='opacity 0.6s'; setTimeout(()=>{el.style.opacity='1';},50); },i*80);
-      }
-    });
-  }
-
-  // NAV HAMBURGER
-  function toggleMenu(){
-    const nl = document.getElementById('navLinks');
-    nl.classList.toggle('open');
-  }
-
-  // SCROLL TOP
-  window.addEventListener('scroll',()=>{
-    const btn = document.getElementById('scrollTop');
-    btn.classList.toggle('show', window.scrollY > 400);
   });
+  // Mostrar pelota con delay
+  setTimeout(iniciaPelota, 1200);
+}
 
-  // DOLAR BLUE
-  async function fetchDolar(){
-    try{
-      const r = await fetch('https://api.valordolarblue.com.ar/v1/dolar');
-      const d = await r.json();
-      if(d && d.blue){
-        document.getElementById('dolarValue').textContent = `$${d.blue.venta} venta`;
-      }
-    } catch(e){
-      document.getElementById('dolarValue').textContent = 'Ver en vivo →';
-    }
+// ===== NAV =====
+function toggleMenu(){
+  document.getElementById('navLinks').classList.toggle('open');
+}
+
+// ===== SCROLL TOP =====
+window.addEventListener('scroll',()=>{
+  document.getElementById('scrollTop').classList.toggle('show', window.scrollY > 400);
+});
+
+// ===== DOLAR =====
+async function fetchDolar(){
+  try{
+    const r = await fetch('https://api.valordolarblue.com.ar/v1/dolar');
+    const d = await r.json();
+    if(d && d.blue) document.getElementById('dolarValue').textContent = `$${d.blue.venta} venta`;
+  }catch(e){
+    document.getElementById('dolarValue').textContent = 'Ver en vivo →';
   }
-  fetchDolar();
+}
+fetchDolar();
 
-  // FORM SUBMIT
-  function submitForm(){
-    const name = document.getElementById('f-name').value;
-    const email = document.getElementById('f-email').value;
-    const msg = document.getElementById('f-msg').value;
-    if(!name||!email||!msg){ alert('Por favor completá al menos tu nombre, email y mensaje.'); return; }
-    // Redirect to WhatsApp
-    const wa = `https://wa.me/541140970446?text=Hola%20Juan%2C%20soy%20${encodeURIComponent(name)}%20(${encodeURIComponent(email)}).%20${encodeURIComponent(msg)}`;
-    window.open(wa,'_blank');
-    document.getElementById('formSuccess').style.display='block';
-    document.getElementById('f-name').value='';
-    document.getElementById('f-email').value='';
-    document.getElementById('f-phone').value='';
-    document.getElementById('f-msg').value='';
-  }
+// ===== FORM =====
+function submitForm(){
+  const name = document.getElementById('f-name').value;
+  const email = document.getElementById('f-email').value;
+  const msg = document.getElementById('f-msg').value;
+  if(!name||!email||!msg){ alert('Por favor completá al menos tu nombre, email y mensaje.'); return; }
+  const wa = `https://wa.me/541153355893?text=Hola%20Juan%2C%20soy%20${encodeURIComponent(name)}%20(${encodeURIComponent(email)}).%20${encodeURIComponent(msg)}`;
+  window.open(wa,'_blank');
+  document.getElementById('formSuccess').style.display='block';
+  document.getElementById('f-name').value='';
+  document.getElementById('f-email').value='';
+  document.getElementById('f-phone').value='';
+  document.getElementById('f-msg').value='';
+}
 
-  // SCROLL ANIMATIONS
-  const observer = new IntersectionObserver((entries)=>{
-    entries.forEach(e=>{
-      if(e.isIntersecting) e.target.style.animation='fadeInUp 0.6s ease forwards';
-    });
-  },{threshold:0.1});
-  // Attach after site shown (delayed)
+// ===== SCROLL ANIM =====
+const observer = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting) e.target.style.animation='fadeInUp 0.6s ease forwards';
+  });
+},{threshold:0.1});
+setTimeout(()=>{
+  document.querySelectorAll('.service-card,.price-card,.example-card,.negocio-item,.blog-card').forEach(el=>{
+    el.style.opacity='0';
+    observer.observe(el);
+  });
+},1000);
+const style = document.createElement('style');
+style.textContent = `@keyframes fadeInUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}`;
+document.head.appendChild(style);
+
+// ===== PELOTA REBOTANDO INTELIGENTE =====
+const CONSEJOS = [
+  { icon:'💡', texto:'Tener una página web aumenta tu credibilidad: el 75% de los usuarios juzga la seriedad de un negocio por su sitio web.' },
+  { icon:'📱', texto:'El 80% de las búsquedas locales se hacen desde el celular. ¿Tu negocio aparece en Google Maps y en móvil?' },
+  { icon:'📸', texto:'Subí fotos reales de tu local, productos o servicios. La autenticidad genera confianza y aumenta las consultas.' },
+  { icon:'⭐', texto:'Pedile a tus clientes satisfechos que te dejen una reseña en Google. Cinco buenas reseñas pueden duplicar tus llamados.' },
+  { icon:'🕐', texto:'Respondé los mensajes de WhatsApp y redes en menos de 1 hora. La velocidad de respuesta es clave para cerrar ventas.' },
+  { icon:'🎯', texto:'Publicá contenido en Instagram o Facebook al menos 3 veces por semana. La consistencia es más importante que la perfección.' },
+  { icon:'💳', texto:'Aceptar pagos digitales (Mercado Pago, transferencia) puede aumentar tus ventas hasta un 40% más.' },
+  { icon:'🔍', texto:'Usá palabras clave locales en tu web: por ejemplo "ferretería en Merlo" o "peluquería en Haedo" para aparecer en Google.' },
+  { icon:'🤝', texto:'Hacé alianzas con negocios complementarios del barrio. Un comercio que te recomienda vale más que cualquier anuncio.' },
+  { icon:'📊', texto:'Revisá mensualmente cuántas visitas recibe tu web con Google Analytics. Lo que no se mide, no se puede mejorar.' },
+  { icon:'🎁', texto:'Ofrecé una promoción exclusiva para quienes te contacten por la web o WhatsApp. Diferenciá el canal digital.' },
+  { icon:'🏷️', texto:'Actualizá tus precios y promociones en la web regularmente. Un precio desactualizado genera desconfianza.' },
+  { icon:'💬', texto:'Agregá testimonios reales de clientes en tu sitio. El boca a boca digital es la publicidad más efectiva.' },
+  { icon:'🚀', texto:'Una landing page bien diseñada puede convertir hasta 5 veces más visitas en clientes que una página genérica.' },
+  { icon:'📧', texto:'Recolectá emails de tus clientes. Un newsletter mensual con ofertas cuesta casi nada y fideliza mucho.' },
+  { icon:'🌙', texto:'Tu web trabaja mientras vos dormís. Tener información clara de horarios, precios y contacto evita llamadas innecesarias.' },
+  { icon:'🏆', texto:'Mostrá tus diferencias: ¿qué tenés vos que no tiene la competencia? Destacalo en tu sitio, no lo escondas.' },
+  { icon:'📦', texto:'Si tenés tienda online, describí bien cada producto: medidas, materiales, formas de envío. La info reduce las dudas y acelera la compra.' },
+  { icon:'🔗', texto:'Sumá el link de tu web a tu perfil de Instagram y WhatsApp Business. Cada punto de contacto es una oportunidad.' },
+  { icon:'🎨', texto:'El diseño importa: el 94% de las primeras impresiones sobre un negocio se basan en el diseño visual de su web.' },
+];
+
+let pelotaX = 100, pelotaY = 100;
+let velX = 3.5, velY = 2.8;
+let pelotaSize = 64;
+let animId = null;
+let consejoVisible = false;
+let consejoTimer = null;
+let hintShown = false;
+
+function iniciaPelota(){
+  const wrap = document.getElementById('pelota-wrap');
+  wrap.style.display = 'block';
+  pelotaX = Math.random() * (window.innerWidth - 120) + 40;
+  pelotaY = Math.random() * (window.innerHeight - 200) + 100;
+  velX = (Math.random() > 0.5 ? 1 : -1) * (3 + Math.random() * 2);
+  velY = (Math.random() > 0.5 ? 1 : -1) * (2.5 + Math.random() * 2);
+  animarPelota();
+
+  // Mostrar hint después de 2 segundos
   setTimeout(()=>{
-    document.querySelectorAll('.service-card,.price-card,.example-card,.negocio-item,.blog-card').forEach(el=>{
-      el.style.opacity='0';
-      observer.observe(el);
-    });
-  },1000);
+    if(!hintShown){
+      hintShown = true;
+      const hint = document.getElementById('pelota-hint');
+      hint.style.display = 'block';
+      setTimeout(()=>{ hint.style.display='none'; }, 4000);
+    }
+  }, 2000);
+}
 
-  const style = document.createElement('style');
-  style.textContent = `@keyframes fadeInUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}`;
-  document.head.appendChild(style);
+function animarPelota(){
+  const wrap = document.getElementById('pelota-wrap');
+  const svgEl = wrap.querySelector('svg');
+  const W = window.innerWidth;
+  const H = window.innerHeight;
+
+  pelotaX += velX;
+  pelotaY += velY;
+
+  // Rebote en paredes con efecto squish
+  if(pelotaX <= 0){ pelotaX = 0; velX = Math.abs(velX); squishPelota('h'); }
+  if(pelotaX >= W - pelotaSize){ pelotaX = W - pelotaSize; velX = -Math.abs(velX); squishPelota('h'); }
+  if(pelotaY <= 0){ pelotaY = 0; velY = Math.abs(velY); squishPelota('v'); }
+  if(pelotaY >= H - pelotaSize){ pelotaY = H - pelotaSize; velY = -Math.abs(velY); squishPelota('v'); }
+
+  // Fricción muy leve para que parezca natural
+  velX *= 0.9995;
+  velY *= 0.9995;
+  // Velocidad mínima para que no pare
+  const minV = 2;
+  if(Math.abs(velX) < minV) velX = velX < 0 ? -minV : minV;
+  if(Math.abs(velY) < minV) velY = velY < 0 ? -minV : minV;
+
+  wrap.style.left = pelotaX + 'px';
+  wrap.style.top = pelotaY + 'px';
+
+  // Sombra dinámica (más grande cuando está "lejos" del suelo, más chica cerca)
+  const distFromBottom = (H - pelotaY - pelotaSize);
+  const shadowScale = Math.max(0.3, Math.min(1, 1 - distFromBottom/H*0.5));
+  const sombra = document.getElementById('pelota-sombra');
+  if(sombra){
+    sombra.style.transform = `scaleX(${shadowScale})`;
+    sombra.style.opacity = 0.3 + shadowScale * 0.4;
+  }
+
+  // Rotación según velocidad
+  const speed = Math.sqrt(velX*velX + velY*velY);
+  if(svgEl) svgEl.style.animationDuration = Math.max(0.3, 3/speed) + 's';
+
+  // Actualizar burbuja de consejo si está visible
+  if(consejoVisible){
+    actualizarPosBurbuja();
+  }
+
+  animId = requestAnimationFrame(animarPelota);
+}
+
+function squishPelota(dir){
+  const pelota = document.getElementById('pelota');
+  if(dir === 'h'){
+    pelota.style.transform = 'scaleX(0.75) scaleY(1.2)';
+  } else {
+    pelota.style.transform = 'scaleX(1.2) scaleY(0.75)';
+  }
+  setTimeout(()=>{ pelota.style.transform = 'scale(1)'; pelota.style.transition='transform 0.12s'; }, 80);
+}
+
+function actualizarPosBurbuja(){
+  const burbuja = document.getElementById('consejo-bubble');
+  let bx = pelotaX + pelotaSize + 10;
+  let by = pelotaY - 10;
+  const bw = 250;
+  if(bx + bw > window.innerWidth) bx = pelotaX - bw - 10;
+  if(by < 10) by = 10;
+  if(by + 140 > window.innerHeight) by = window.innerHeight - 150;
+  burbuja.style.left = bx + 'px';
+  burbuja.style.top = by + 'px';
+}
+
+let ultimoConsejo = -1;
+function mostrarConsejo(){
+  clearTimeout(consejoTimer);
+
+  // Elegir consejo aleatorio distinto al último
+  let idx;
+  do { idx = Math.floor(Math.random() * CONSEJOS.length); } while(idx === ultimoConsejo && CONSEJOS.length > 1);
+  ultimoConsejo = idx;
+  const c = CONSEJOS[idx];
+
+  const burbuja = document.getElementById('consejo-bubble');
+  document.getElementById('consejo-icon').textContent = c.icon;
+  document.getElementById('consejo-text').textContent = c.texto;
+  actualizarPosBurbuja();
+  burbuja.style.display = 'block';
+  burbuja.style.animation = 'none';
+  void burbuja.offsetWidth;
+  burbuja.style.animation = 'fadeInBubble 0.25s ease';
+  consejoVisible = true;
+
+  // Acelerar la pelota un poco al tocarla
+  const boost = 1.3;
+  velX *= boost;
+  velY *= boost;
+
+  // Ocultar después de 5 segundos
+  consejoTimer = setTimeout(()=>{
+    burbuja.style.display = 'none';
+    consejoVisible = false;
+  }, 5000);
+}
+
+// Ocultar burbuja al hacer click en otro lado
+document.addEventListener('click', (e)=>{
+  if(e.target.closest('#pelota')) return;
+  document.getElementById('consejo-bubble').style.display = 'none';
+  consejoVisible = false;
+});
+
+// Redimensionar ventana
+window.addEventListener('resize', ()=>{
+  if(pelotaX > window.innerWidth - pelotaSize) pelotaX = window.innerWidth - pelotaSize - 10;
+  if(pelotaY > window.innerHeight - pelotaSize) pelotaY = window.innerHeight - pelotaSize - 10;
+});
 </script>
 </body>
 </html>
